@@ -10,6 +10,7 @@ int main(int argc, char* argv[]) {
     // initialize scene
 
 
+
     SDL_Event e;
     bool quit = false;
 
