@@ -3,7 +3,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3_image/SDL_image.h>
 #include <iostream>
-
+#include <glad/glad.h>
 namespace neu {
 	/// <summary>
 	/// Main rendering system that manages the SDL window and renderer.
@@ -145,7 +145,7 @@ namespace neu {
 		// Dimensions of the render target
 		int m_width{ 0 };
 		int m_height{ 0 };
-
+		SDL_GLContext m_context;
 		// SDL window handle
 		SDL_Window* m_window = nullptr;
 
