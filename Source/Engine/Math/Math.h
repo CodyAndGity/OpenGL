@@ -63,6 +63,19 @@ namespace neu::math {
 		return (v < 0) ? (T)-1 : (v > 0) ? (T)1 : (T)0;
 	}
 
+	template<std::floating_point T>
+	inline T Lerp(T min, T max, T t) {
+		return min + (max - min) * t;
+	}
+
+	template<std::floating_point T>
+	inline T Remap(T minInitial, T maxInitial, T minResult, T maxResult, T value) {
+		T t = (value-minInitial) / (maxInitial - minInitial);
+
+		return Lerp(minResult, maxResult, t);
+	}
+
+
 	using std::min;
 	using std::max;
 	using std::clamp;

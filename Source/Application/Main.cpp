@@ -8,15 +8,18 @@ int main(int argc, char* argv[]) {
 
     // initialize scene
     std::vector<neu::vec3> points{
+        //mouse triangle
         {-0.25f, -0.25f, 0},
         {0.25f, -0.25f, 0},
         {0, 0.25f, 0},
          
+        //corner rectangle
         { -0.5f, 0.5f, 0 },
         {0.5f, 0.5f, 0},
         {0.5f, -0.5f, 0},
 		{-0.5f, -0.5f, 0},
 
+        //polygon
         {0,1,0},
         {0,0,0},
         {-0.75f,0.25f,0},
@@ -28,6 +31,7 @@ int main(int argc, char* argv[]) {
         {0.75f,0.25f,0},
         {0.25f,0,0},
 
+        //triangle strip
         {-0.5f,0.5f,0},
         {0,0.5f,0},
         {0.5f,0.5f,0},
@@ -39,15 +43,18 @@ int main(int argc, char* argv[]) {
 
     };
     std::vector<neu::vec3> colors{
+        //triangle
         {0,1,0},
         {0,1,0},
         {0,1,0},
 
+        //rectangle
         {0,0,1},
         {0,0,1},
         {0,0,1},
         {0,0,1},
 
+        //polygon
         {1,0,0},
         {0,0,0},
         {1,0,0},
@@ -59,6 +66,7 @@ int main(int argc, char* argv[]) {
         {1,0,0},
         {0,0,0},
 
+        //triangle strip
         {0,0,1},
         {0,1,1},
         {1,1,1},
@@ -105,8 +113,9 @@ int main(int argc, char* argv[]) {
         //follow mouse code
         neu::InputSystem input = neu::GetEngine().GetInput();
         neu::vec2 mouse= input.GetMousePosition();
-        
-        glTranslatef(( - 640  +mouse.x) / 640, (512 - mouse.y) / 512, 0);
+        float width =neu::GetEngine().GetRenderer().GetWidth()*0.5;
+        float height =neu::GetEngine().GetRenderer().GetHeight()*0.5;
+        glTranslatef(( -width +mouse.x) / width, (height - mouse.y) / height, 0);
 
         //rotation based on time but faster
         int rotation = 300*neu::GetEngine().GetTime().GetTime();
