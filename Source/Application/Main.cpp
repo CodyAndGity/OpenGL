@@ -115,6 +115,7 @@ int main(int argc, char* argv[]) {
     glShaderSource(vs, 1, &vs_cstr, NULL);
     glCompileShader(vs);
 
+    //Check for compile errors
     int success;
     glGetShaderiv(vs, GL_COMPILE_STATUS, &success);
     if (!success)
@@ -137,7 +138,7 @@ int main(int argc, char* argv[]) {
     glShaderSource(fs, 1, &fs_cstr, NULL);
     glCompileShader(fs);
 
-    
+    //Check for compile errors
     glGetShaderiv(fs, GL_COMPILE_STATUS, &success);
     if (!success)
     {
@@ -155,6 +156,7 @@ int main(int argc, char* argv[]) {
     glAttachShader(program, fs);
     glLinkProgram(program);
 
+    //check for linking errors
     glGetProgramiv(program, GL_LINK_STATUS, &success);
     if (!success)
     {
@@ -172,6 +174,9 @@ int main(int argc, char* argv[]) {
     GLint uniform= glGetUniformLocation(program, "u_time");
     ASSERT(uniform != -1);
 
+    // loc_time
+    int loc_time = glGetUniformLocation(program, "u_time");
+    ASSERT_MSG(loc_time != -1, "Could not find uniform u_time.");
 
     /*
     std::vector<neu::vec3> velocities;
@@ -197,11 +202,14 @@ int main(int argc, char* argv[]) {
         if (neu::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_ESCAPE)) quit = true;
 
         glUniform1f(uniform, neu::GetEngine().GetTime().GetTime());
+        glUniform1f(loc_time, neu::GetEngine().GetTime().GetTime());
 
         // draw
         neu::vec3 color{ 0, 0, 0 };
         neu::GetEngine().GetRenderer().SetColor(color.r, color.g, color.b);
         neu::GetEngine().GetRenderer().Clear();
+
+        //old code before shaders
         /*
         glLoadIdentity();
         
