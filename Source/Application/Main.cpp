@@ -76,9 +76,13 @@ int main(int argc, char* argv[]) {
         //{1,0,1},
         
     };
+    std::vector<neu::vec2> texcoord{ {1,1},
+        {0,1},
+        {1,0} };
 
-    GLuint vbo[2];
-    glGenBuffers(2, vbo);
+
+    GLuint vbo[3];
+    glGenBuffers(3, vbo);
 
     //vertex buffer (position)
     glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
@@ -87,6 +91,10 @@ int main(int argc, char* argv[]) {
     //vertex buffer (color)
     glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(neu::vec3) * colors.size(), colors.data(), GL_STATIC_DRAW);
+    
+    //vertex buffer (textCords)
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(neu::vec2) * texcoord.size(), texcoord.data(), GL_STATIC_DRAW);
     
 
     //vertex array
@@ -103,6 +111,11 @@ int main(int argc, char* argv[]) {
     glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+    //texcoord
+    glEnableVertexAttribArray(2);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, NULL);
 
     //vertex shader
     std::string vs_source;
@@ -170,6 +183,12 @@ int main(int argc, char* argv[]) {
 
     glUseProgram(program);
 
+    //texture
+    neu::res_t<neu::Texture> texture = neu::Resources().Get < neu::Texture>("textures/beast.png");
+
+
+
+
     //uniform
     GLint uniform= glGetUniformLocation(program, "u_time");
     ASSERT(uniform != -1);
@@ -177,6 +196,10 @@ int main(int argc, char* argv[]) {
     // loc_time
     int loc_time = glGetUniformLocation(program, "u_time");
     ASSERT_MSG(loc_time != -1, "Could not find uniform u_time.");
+
+    GLint tex_uniform = glGetUniformLocation(program, "u_texture");
+    glUniform1i(tex_uniform, texture->m_texture);
+
 
     /*
     std::vector<neu::vec3> velocities;
@@ -187,7 +210,8 @@ int main(int argc, char* argv[]) {
     */
     SDL_Event e;
     bool quit = false;
-
+    glDeleteShader(vs);
+    glDeleteShader(fs);
     // MAIN LOOP
     while (!quit) {
         while (SDL_PollEvent(&e)) {
@@ -205,8 +229,7 @@ int main(int argc, char* argv[]) {
         glUniform1f(loc_time, neu::GetEngine().GetTime().GetTime());
 
         // draw
-        neu::vec3 color{ 0, 0, 0 };
-        neu::GetEngine().GetRenderer().SetColor(color.r, color.g, color.b);
+        
         neu::GetEngine().GetRenderer().Clear();
 
         //old code before shaders
