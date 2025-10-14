@@ -9,12 +9,12 @@ out vec2 v_texcoord;
 uniform float u_time;
 
 void main(){
-	float frequency = 3.0;
-	float amplitude = 0.3;
+	//float frequency = 3.0;
+	//float amplitude = 0.3;
 	vec3 position = a_position;
 	v_texcoord=a_texcoord;
-	float offset = sin(u_time * frequency + position.y) * amplitude;
-	position.x += offset;
+	//float offset = sin(u_time * frequency + position.y) * amplitude;
+	//position.x += offset;
 
 	gl_Position = vec4(position, 1.0);
 	v_color=a_color;
