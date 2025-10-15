@@ -52,7 +52,10 @@ namespace neu {
 		GLint location = GetUniformLocation(name);
 		if (location != -1) glUniform1ui(location, value);
 	}
-
+	void Program::SetUniform(const std::string& name, bool value) {
+		GLint location = GetUniformLocation(name);
+		if (location != -1) glUniform1ui(location, value);
+	}
 	void Program::SetUniform(const std::string& name, const neu::vec2& value) {
 		GLint location = GetUniformLocation(name);
 		if (location != -1) glUniform2f(location, value.x, value.y);
@@ -61,7 +64,8 @@ namespace neu {
 		GLint location = GetUniformLocation(name);
 		if (location != -1) glUniform3f(location, value.x, value.y,value.z);
 	}
-	//WIP/TODO other types of set Uniform
+	
+	
 	GLint Program::GetUniformLocation(const std::string& name) {
 		// find uniform location in map
 		auto it = m_uniformLocations.find(name);
