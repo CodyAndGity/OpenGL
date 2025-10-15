@@ -6,8 +6,9 @@ layout (location=2) in vec2 a_texcoord;
 
 out vec3 v_color;
 out vec2 v_texcoord;
-uniform float u_time;
 
+uniform float u_time;
+uniform mat4 u_model;
 void main(){
 	//float frequency = 3.0;
 	//float amplitude = 0.3;
@@ -16,7 +17,7 @@ void main(){
 	//float offset = sin(u_time * frequency + position.y) * amplitude;
 	//position.x += offset;
 	float x =u_time;
-	gl_Position = vec4(position, 1.0);
+	gl_Position = u_model*vec4(position, 1.0);
 	v_color=a_color;
 	//gl_Position =vec4(a_position *sin(u_time), 1.0f);
 }

@@ -152,8 +152,11 @@ int main(int argc, char* argv[]) {
 	//texture
 	neu::res_t<neu::Texture> texture = neu::Resources().Get < neu::Texture>("textures/beast.png");
 
-
-	
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.5f, 0.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	program->SetUniform("u_model", model);
 	program->SetUniform("u_texture",0);
 
 	
