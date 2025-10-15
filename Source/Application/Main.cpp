@@ -1,3 +1,5 @@
+#include "../Engine/Renderer/Shader.h"
+#include "../Engine/Renderer/Program.h"
 int main(int argc, char* argv[]) {
 	neu::file::SetCurrentDirectory("Assets");
 	LOG_INFO("current directory {}", neu::file::GetCurrentDirectory());
@@ -180,90 +182,34 @@ int main(int argc, char* argv[]) {
 	neu::file::ReadTextFile("shaders/basic.vert", vs_source);
 	const char* vs_cstr = vs_source.c_str();
 
-	GLuint vs;
-	vs = glCreateShader(GL_VERTEX_SHADER);
+	/*GLuint vs;
+	vs = glCreateShader(GL_VERTEX_SHADER);*/
+	
+	auto vs = neu::Resources().Get<neu::Shader>("shaders/basic.vert", GL_VERTEX_SHADER);
+	auto fs = neu::Resources().Get<neu::Shader>("shaders/basic.frag", GL_FRAGMENT_SHADER);
+	
 
-	glShaderSource(vs, 1, &vs_cstr, NULL);
-	glCompileShader(vs);
+	
 
-	//Check for compile errors
-	int success;
-	glGetShaderiv(vs, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		std::string infoLog(512, '\0');  // pre-allocate space
-		GLsizei length;
-		glGetShaderInfoLog(vs, (GLsizei)infoLog.size(), &length, &infoLog[0]);
-		infoLog.resize(length);
+	
 
-		LOG_WARNING("Shader compilation failed: {}", infoLog);
-	}
-
-	//fragment shader
-	std::string fs_source;
-	neu::file::ReadTextFile("shaders/basic.frag", fs_source);
-	const char* fs_cstr = fs_source.c_str();
-
-	GLuint fs;
-	fs = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fs, 1, &fs_cstr, NULL);
-	glCompileShader(fs);
-
-	//Check for compile errors
-	glGetShaderiv(fs, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		std::string infoLog(512, '\0');  // pre-allocate space
-		GLsizei length;
-		glGetShaderInfoLog(fs, (GLsizei)infoLog.size(), &length, &infoLog[0]);
-		infoLog.resize(length);
-
-		LOG_WARNING("Shader compilation failed: {}", infoLog);
-	}
-
-
-	GLuint program = glCreateProgram();
-	glAttachShader(program, vs);
-	glAttachShader(program, fs);
-	glLinkProgram(program);
-
-	//check for linking errors
-	glGetProgramiv(program, GL_LINK_STATUS, &success);
-	if (!success)
-	{
-		std::string infoLog(512, '\0');  // pre-allocate space
-		GLsizei length;
-		glGetProgramInfoLog(program, (GLsizei)infoLog.size(), &length, &infoLog[0]);
-		infoLog.resize(length);
-
-		LOG_WARNING("Program link failed: {}", infoLog);
-	}
-
-	glUseProgram(program);
+	auto program = std::make_shared<neu::Program>();
+	program->AttachShader(vs);
+	program->AttachShader(fs);
+	program->Link();
+	program->Use();
 
 	//texture
 	neu::res_t<neu::Texture> texture = neu::Resources().Get < neu::Texture>("textures/beast.png");
 
 
-
-
-	//uniform
-	GLint uniform = glGetUniformLocation(program, "u_time");
-	//ASSERT(uniform != -1);
-
-	// loc_time
-	int loc_time = glGetUniformLocation(program, "u_time");
-	//ASSERT_MSG(loc_time != -1, "Could not find uniform u_time.");
-
-	GLint tex_uniform = glGetUniformLocation(program, "u_texture");
-	glUniform1i(tex_uniform, 0);
+	
 
 
 	
 	SDL_Event e;
 	bool quit = false;
-	glDeleteShader(vs);
-	glDeleteShader(fs);
+	
 	// MAIN LOOP
 	while (!quit) {
 		while (SDL_PollEvent(&e)) {
@@ -276,10 +222,11 @@ int main(int argc, char* argv[]) {
 		neu::GetEngine().Update();
 
 		if (neu::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_ESCAPE)) quit = true;
+		program->SetUniform("u_time", neu::GetEngine().GetTime().GetTime());
+		//program->SetUniform("loc_time", neu::GetEngine().GetTime().GetTime());
 
-		glUniform1f(uniform, neu::GetEngine().GetTime().GetTime());
-		glUniform1f(loc_time, neu::GetEngine().GetTime().GetTime());
-
+		
+		
 		// draw
 
 		neu::GetEngine().GetRenderer().Clear();

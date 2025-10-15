@@ -15,7 +15,7 @@ void main(){
 	v_texcoord=a_texcoord;
 	//float offset = sin(u_time * frequency + position.y) * amplitude;
 	//position.x += offset;
-
+	float x =u_time;
 	gl_Position = vec4(position, 1.0);
 	v_color=a_color;
 	//gl_Position =vec4(a_position *sin(u_time), 1.0f);
