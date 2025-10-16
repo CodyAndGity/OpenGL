@@ -152,17 +152,19 @@ int main(int argc, char* argv[]) {
 	//texture
 	neu::res_t<neu::Texture> texture = neu::Resources().Get < neu::Texture>("textures/beast.png");
 
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.5f, 0.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-	program->SetUniform("u_model", model);
-	program->SetUniform("u_texture",0);
+	float rotation = 0;
 
+	
+	program->SetUniform("u_texture",0);
+	glm::vec3 eye{ 0,0,3 };
 	
 	SDL_Event e;
 	bool quit = false;
 	
+	//projection matrix
+	float aspect = neu::GetEngine().GetRenderer().GetWidth() / (float)neu::GetEngine().GetRenderer().GetHeight();
+	glm::mat4 projection = glm::perspective(glm::radians(90.0f), aspect, 0.01f, 100.0f);
+	program->SetUniform("u_projection", projection);
 	// MAIN LOOP
 	while (!quit) {
 		while (SDL_PollEvent(&e)) {
@@ -175,9 +177,24 @@ int main(int argc, char* argv[]) {
 		neu::GetEngine().Update();
 
 		if (neu::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_ESCAPE)) quit = true;
+
+		glm::mat4 model = glm::mat4(1.0f);//identity matrix
+
+		rotation = neu::GetEngine().GetTime().GetTime()*90;
+		//model matrix
+		model = glm::translate(model, glm::vec3(0.5f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(rotation), glm::vec3(1.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		program->SetUniform("u_model", model);
+
 		program->SetUniform("u_time", neu::GetEngine().GetTime().GetTime());
 		//program->SetUniform("loc_time", neu::GetEngine().GetTime().GetTime());
-
+		eye.x += neu::GetEngine().GetInput().GetMouseDelta().x*0.01f;
+		eye.z -= neu::GetEngine().GetInput().GetMouseDelta().y*0.01f;
+		//view matrix
+		glm::mat4 view = glm::lookAt(eye, eye + glm::vec3{ 0,0,-1 }, glm::vec3{ 0,1,0 });
+		program->SetUniform("u_view", view);
+		
 		
 		
 		// draw
