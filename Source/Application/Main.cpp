@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
 
 	
 	auto model3d = std::make_shared<neu::Model>();
-	model3d->Load("models/sphere.obj");
+	model3d->Load("models/spot.obj");
 
 	
 	
@@ -25,22 +25,14 @@ int main(int argc, char* argv[]) {
 	/*GLuint vs;
 	vs = glCreateShader(GL_VERTEX_SHADER);*/
 	
-	auto vs = neu::Resources().Get<neu::Shader>("shaders/basic_lit.vert", GL_VERTEX_SHADER);
-	auto fs = neu::Resources().Get<neu::Shader>("shaders/basic_lit.frag", GL_FRAGMENT_SHADER);
 	
-
 	
-
+	auto program = neu::Resources().Get<neu::Program>("shaders/basic_lit.prog");
 	
-
-	auto program = std::make_shared<neu::Program>();
-	program->AttachShader(vs);
-	program->AttachShader(fs);
-	program->Link();
 	program->Use();
 
 	//texture
-	neu::res_t<neu::Texture> texture = neu::Resources().Get < neu::Texture>("textures/beast.png");
+	neu::res_t<neu::Texture> texture = neu::Resources().Get < neu::Texture>("textures/cow.jpg");
 
 	float rotation = 0;
 
@@ -72,14 +64,14 @@ int main(int argc, char* argv[]) {
 
 		// update
 		neu::GetEngine().Update();
-		float dt= neu::GetEngine().GetTime().GetTime() * 90;
+		float dt= neu::GetEngine().GetTime().GetDeltaTime() ;
 		if (neu::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_ESCAPE)) quit = true;
 
 		glm::mat4 model = glm::mat4(1.0f);//identity matrix
 
 		
 		
-		transform.rotation.y += 90*dt;
+		transform.rotation.y += 9*dt;
 		program->SetUniform("u_model", transform.GetMatrix());
 
 		program->SetUniform("u_time", neu::GetEngine().GetTime().GetTime());
@@ -88,19 +80,20 @@ int main(int argc, char* argv[]) {
 		
 		
 
-		float speed = .0000050f;
+		float speed = 5.0f;
 		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_A)) camera.position.x -= speed * dt;
 		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_D)) camera.position.x += speed * dt;
 		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_W)) camera.position.z -= speed * dt;
 		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_S)) camera.position.z += speed * dt;
 		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_Q)) camera.position.y -= speed * dt;
 		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_E)) camera.position.y += speed * dt;
-		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_UP)) camera.rotation.y += speed * dt;
-		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_DOWN)) camera.rotation.y -= speed * dt;
-		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_LEFT)) camera.rotation.x -= speed * dt;
-		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_RIGHT)) camera.rotation.x += speed * dt;
+		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_UP)) camera.rotation.x += speed * 10 * dt;
+		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_DOWN)) camera.rotation.x -= speed*10 * dt;
+		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_LEFT)) camera.rotation.y += speed * 10 * dt;
+		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_RIGHT)) camera.rotation.y -= speed * 10 * dt;
 		//view matrix
-		glm::mat4 view = glm::lookAt(camera.position, camera.position +camera.rotation, glm::vec3{0,1,0});
+		glm::vec3 forward = glm::normalize(glm::vec3(camera.GetMatrix() * glm::vec4{ 0, 0, -1, 0 }));
+		glm::mat4 view = glm::lookAt(camera.position, camera.position + forward, glm::vec3{0,1,0});
 		program->SetUniform("u_view", view);
 		
 		program->SetUniform("u_light.color",glm::vec3(0,0,4));

@@ -29,7 +29,7 @@ namespace neu {
             glm::mat4 model = glm::mat4(1.0f);//identity matrix
 
             model = glm::translate(model, glm::vec3(position));
-            model *= glm::eulerAngleYXZ(glm::radians(position.y), glm::radians(position.x), glm::radians(position.z));
+            model *= glm::eulerAngleYXZ(glm::radians(rotation.y), glm::radians(rotation.x), glm::radians(rotation.z));
             model = glm::scale(model, glm::vec3(scale));
             return model;
         }
