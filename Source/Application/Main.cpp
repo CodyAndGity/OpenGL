@@ -1,5 +1,6 @@
 #include "../Engine/Renderer/Shader.h"
 #include "../Engine/Renderer/Program.h"
+#include <imgui.h>
 int main(int argc, char* argv[]) {
 	neu::file::SetCurrentDirectory("Assets");
 	LOG_INFO("current directory {}", neu::file::GetCurrentDirectory());
@@ -104,9 +105,19 @@ int main(int argc, char* argv[]) {
 		// draw
 
 		neu::GetEngine().GetRenderer().Clear();
-		
+		// start new ImGui frame
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplSDL3_NewFrame();
+		ImGui::NewFrame();
+		// set ImGui
+		ImGui::Begin("Editor");
+		ImGui::Text("Hello World");
+		ImGui::Text("Press 'Esc' to quit.");
+		ImGui::End();
 		model3d->Draw(GL_TRIANGLES);
-
+		// draw ImGui
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		
 		
 		
