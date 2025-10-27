@@ -83,7 +83,9 @@ namespace neu {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
+
         ImGui::StyleColorsDark(); // Or ImGui::StyleColorsClassic();
+
         ImGui_ImplSDL3_InitForOpenGL(m_window, m_context);
         ImGui_ImplOpenGL3_Init("#version 460 core");
 

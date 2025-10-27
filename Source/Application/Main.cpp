@@ -109,12 +109,15 @@ int main(int argc, char* argv[]) {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL3_NewFrame();
 		ImGui::NewFrame();
+
 		// set ImGui
 		ImGui::Begin("Editor");
 		ImGui::Text("Hello World");
 		ImGui::Text("Press 'Esc' to quit.");
 		ImGui::End();
+
 		model3d->Draw(GL_TRIANGLES);
+
 		// draw ImGui
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
