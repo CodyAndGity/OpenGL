@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 	material->program->SetUniform("u_ambient_light",glm::vec3(0.2f));
 	
 	neu::Transform light{ {2,4,3}  };
-	glm::vec3 lightColor{ 1 };
+	glm::vec3 lightColor{ 1,1,1 };
 	
 	neu::Transform transform{ {0,0,0}  };
 	neu::Transform camera{ {0,0,5} ,{0,0,-1},{1,1,1} };
@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
 		
 		material->program->SetUniform("u_model", transform.GetMatrix());
 
-		material->program->SetUniform("u_time", neu::GetEngine().GetTime().GetTime());
+		
 		
 		
 		float speed = 5.0f;
@@ -98,9 +98,9 @@ int main(int argc, char* argv[]) {
 
 		// set ImGui
 		ImGui::Begin("Editor");
-		ImGui::DragFloat3("Position", glm::value_ptr(light.position), 0.1f);
-		ImGui::ColorEdit3("Color", glm::value_ptr(lightColor));
-		light.UpdateGui();
+		ImGui::DragFloat3("Light Position", glm::value_ptr(light.position), 0.1f);
+		ImGui::ColorEdit3("Light Color", glm::value_ptr(lightColor));
+		//light.UpdateGui();
 		material->UpdateGui();
 		transform.UpdateGui();
 		ImGui::End();

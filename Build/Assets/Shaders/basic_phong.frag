@@ -26,13 +26,14 @@ uniform struct Material{
 vec3 calculateLight(in vec3 position,in vec3 normal){
 	//diffuse
 	vec3 light_direction=normalize( u_light.position-position);
-	float intensity =max( dot(light_direction,normal),0);
+	float intensity =max(dot(light_direction,normal),0);
 	vec3 diffuse=u_light.color*u_material.baseColor*intensity;
 
 	//specular
 	vec3 reflection=reflect(-light_direction,normal);
 	vec3 view_direction=normalize(-position);
-	intensity =max( dot(reflection,view_direction),0);
+	vec3 half_way=normalize((light_direction+view_direction)/1.0f);
+	intensity =max(dot(reflection,half_way),0);
 	intensity=pow(intensity,u_material.shininess);
 	vec3 specular=vec3(intensity);
 
