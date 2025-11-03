@@ -20,6 +20,9 @@
     <Filter Include="Assets\Scenes">
       <UniqueIdentifier>{96293985-d719-4c2d-8b66-962df2e12781}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Models">
+      <UniqueIdentifier>{f434302f-2d7d-4f07-a492-884e47797cd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -65,9 +68,18 @@
     <None Include="..\..\Build\Assets\Scenes\scene01.json">
       <Filter>Assets\Scenes</Filter>
     </None>
+    <None Include="..\..\Build\Assets\Materials\halloween.mat">
+      <Filter>Assets\Materials</Filter>
+    </None>
+    <None Include="..\..\Build\Assets\Scenes\scene02.json">
+      <Filter>Assets\Scenes</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\Build\Assets\Textures\beast.png">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="..\..\Build\Assets\Textures\cow.jpg">
       <Filter>Assets\Textures</Filter>
     </Image>
   </ItemGroup>
