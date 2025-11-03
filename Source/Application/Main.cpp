@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
 	
 	//Init scene
 	auto scene = std::make_unique<neu::Scene>();
-	scene->Load("scenes/scene02.json");
+	scene->Load("scenes/scene01.json");
 
 
 	
@@ -35,26 +35,6 @@ int main(int argc, char* argv[]) {
 		scene->Update(dt);
 
 		
-
-				
-		
-		
-		float speed = 5.0f;
-		/*if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_A)) camera.position.x -= speed * dt;
-		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_D)) camera.position.x += speed * dt;
-		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_W)) camera.position.z -= speed * dt;
-		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_S)) camera.position.z += speed * dt;
-		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_Q)) camera.position.y -= speed * dt;
-		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_E)) camera.position.y += speed * dt;
-		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_UP)) camera.rotation.x += speed * 10 * dt;
-		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_DOWN)) camera.rotation.x -= speed*10 * dt;
-		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_LEFT)) camera.rotation.y += speed * 10 * dt;
-		if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_RIGHT)) camera.rotation.y -= speed * 10 * dt;*/
-		//view matrix
-		
-		
-
-				
 		// draw
 
 		neu::GetEngine().GetRenderer().Clear();
