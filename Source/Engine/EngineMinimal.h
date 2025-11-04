@@ -59,6 +59,11 @@
 #include "Components/LightComponent.h"
 #include "Components/FirstPersonController.h"
 
+//Gui
+#include "GUI/GUI.h"
+#include "GUI/Editor.h"
+
+
 // third-party library
 #include <fmod.hpp>
 #include <fmod_errors.h>

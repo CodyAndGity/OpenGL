@@ -25,4 +25,6 @@ namespace neu {
 	
 	
 	}
+	void ModelRenderer::UpdateGui()	{
+	}
 }

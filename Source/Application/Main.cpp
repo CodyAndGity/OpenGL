@@ -14,10 +14,9 @@ int main(int argc, char* argv[]) {
 	//Init scene
 	auto scene = std::make_unique<neu::Scene>();
 	scene->Load("scenes/scene01.json");
+	scene->Start();
 
-
-	
-	
+	auto editor = std::make_unique<neu::Editor>();	
 	
 	// MAIN LOOP
 	while (!quit) {
@@ -32,24 +31,16 @@ int main(int argc, char* argv[]) {
 		neu::GetEngine().Update();
 		float dt= neu::GetEngine().GetTime().GetDeltaTime() ;
 		if (neu::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_ESCAPE)) quit = true;
+		
 		scene->Update(dt);
-
+		
+		editor->Begin();
+		editor->UpdateGui(*scene);
 		
 		// draw
 
 		neu::GetEngine().GetRenderer().Clear();
-		// start new ImGui frame
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplSDL3_NewFrame();
-		ImGui::NewFrame();
-
-		// set ImGui
-		ImGui::Begin("Editor");
 		
-		
-		ImGui::End();
-		
-
 		scene->Draw(neu::GetEngine().GetRenderer());
 		// draw ImGui
 		ImGui::Render();
@@ -58,8 +49,6 @@ int main(int argc, char* argv[]) {
 		
 		neu::GetEngine().GetRenderer().Present();
 	}
-
 	neu::GetEngine().Shutdown();
-
 	return 0;
 }

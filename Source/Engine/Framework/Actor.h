@@ -100,6 +100,9 @@ namespace neu {
 		// Virtual to allow derived actors to override behavior
 		virtual void Draw(class Renderer& renderer);
 
+		// Inherited via Object
+		void UpdateGui() override;
+
 		/// <summary>
 		/// Adds a component to the actor.
 		/// 
@@ -156,7 +159,9 @@ namespace neu {
 		// Uses unique_ptr for automatic memory management
 		// Protected to allow derived classes to access components directly
 		std::vector<std::unique_ptr<Component>> m_components;
-	};
+
+		
+};
 
 	/// <summary>
 	/// Template implementation for checking component existence.

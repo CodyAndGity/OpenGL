@@ -51,6 +51,6 @@ namespace neu {
 
 	void FirstPersonController::UpdateGui() {
 		ImGui::DragFloat("Speed", &speed, 0.1f);
-		ImGui::DragFloat("Sensitivity", &sensitivity, 0.1f);
+		ImGui::DragFloat("Sensitivity", &sensitivity, 0.001f);
 	}
 }

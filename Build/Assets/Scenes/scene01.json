@@ -1,7 +1,7 @@
 {
 	"actors": [
 		{
-			"name": "ball",
+			"name": "cow",
 			"persistent": true,
 			"transform": {
 				"position": [
@@ -11,7 +11,7 @@
 				],
 				"rotation": [
 					0,
-					0,
+					180,
 					0
 				],
 				"scale": [
@@ -23,7 +23,7 @@
 			"components": [
 				{
 					"type": "ModelRenderer",
-					"model": "Models/sphere.obj",
+					"model": "Models/spot.obj",
 					"material": "Materials/spot.mat"
 				}
 			]
@@ -60,7 +60,43 @@
 			"components": [
 				{
 					"type": "LightComponent",
-					"color": [ 1, 1, 0 ]
+					"color": [ 0, 0, 1 ],
+					"intensity": 5,
+					"range": 10
+				}
+			]
+		},
+		{
+			"name": "light2",
+			"persistent": true,
+			"transform": {
+				"position": [ -5, 2, 0 ],
+				"rotation": [ 0, 0, 0 ],
+				"scale": [ 1, 1, 1 ]
+			},
+			"components": [
+				{
+					"type": "LightComponent",
+					"color": [ 1, 0, 1 ],
+					"intensity": 5,
+					"range": 10
+				}
+			]
+		},
+		{
+			"name": "light3",
+			"persistent": true,
+			"transform": {
+				"position": [ 0, -2, 0 ],
+				"rotation": [ 0, 0, 0 ],
+				"scale": [ 1, 1, 1 ]
+			},
+			"components": [
+				{
+					"type": "LightComponent",
+					"color": [ 0, 1, 0 ],
+					"intensity": 5,
+					"range": 10
 				}
 			]
 		}

@@ -152,6 +152,23 @@ namespace neu {
 		m_components.push_back(std::move(component));
 	}
 
+	void Actor::UpdateGui(){
+		ImGui::Text("Name: %s", name.c_str());
+		ImGui::Text("Tag: %s", tag.c_str());
+		ImGui::Checkbox("Active", &active);
+		// transform information
+		ImGui::Separator();
+		transform.UpdateGui();
+		//components info
+		for (auto& component : m_components) {
+			ImGui::Separator();
+			if (ImGui::CollapsingHeader(component->GetClassName(), ImGuiTreeNodeFlags_DefaultOpen)) {
+				component->UpdateGui();
+			}
+
+		}
+	}
+
 	/// <summary>
 	/// Deserializes actor data from configuration files.
 	/// 
