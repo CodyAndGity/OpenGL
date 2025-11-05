@@ -62,7 +62,11 @@
 					"type": "LightComponent",
 					"color": [ 0, 0, 1 ],
 					"intensity": 5,
-					"range": 10
+					"range": 10,
+					"typeLight": "spot_light",
+					"innerCutoffAngle": 20,
+					"outerCutoffAngle": 30
+
 				}
 			]
 		},
