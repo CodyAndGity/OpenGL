@@ -94,10 +94,17 @@ vec3 calculateLight(in Light light,in vec3 position,in vec3 normal){
 	vec3 diffuse=light.color*u_material.baseColor*intensity;
 
 	//specular
-	vec3 reflection=reflect(-light_direction,normal);
 	vec3 view_direction=normalize(-position);
-	intensity =max( dot(reflection,view_direction),0);
-	intensity=pow(intensity,u_material.shininess);
+
+	//blinn phong specular model
+	vec3 halfway_direction=normalize(light_direction+view_direction);
+	 intensity=max(dot(normal,halfway_direction),0);
+	 intensity=pow(intensity,u_material.shininess);
+
+	 //phong
+	//vec3 reflection=reflect(-light_direction,normal);
+	//intensity =max( dot(reflection,view_direction),0);
+	//intensity=pow(intensity,u_material.shininess);
 	vec3 specular=vec3(intensity);
 
 
