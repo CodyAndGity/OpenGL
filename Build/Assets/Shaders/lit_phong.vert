@@ -19,12 +19,13 @@ uniform mat4 u_projection;
 
 
 uniform struct Material{
-	sampler2D baseMap;
-	vec3 baseColor;
+	vec3 baseColor;	
+	vec3 emissiveColor;
 
 	float shininess;
 	vec2 tiling;
 	vec2 offset;
+	uint parameters;
 } u_material;
 
 

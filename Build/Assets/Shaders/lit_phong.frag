@@ -6,6 +6,12 @@
 #define DIRECTIONAL_LIGHT	1
 #define SPOT_LIGHT			2
 
+#define BASE_MAP		(1<<0)
+#define SPECULAR_MAP	(1<<1)
+#define EMISSIVE_MAP	(1<<2)
+
+
+
 in VS_OUT{
 	vec2 texcoord;
 	vec3 position;
@@ -31,23 +37,29 @@ struct Light{
 };
 uniform int u_numLights=1;
 uniform Light u_lights[MAX_LIGHTS];
+
 uniform struct Material{
-	sampler2D baseMap;
-	vec3 baseColor;
+	vec3 baseColor;	
+	vec3 emissiveColor;
 
 	float shininess;
 	vec2 tiling;
 	vec2 offset;
+	uint parameters;
 } u_material;
+
+uniform sampler2D u_baseMap;
+uniform sampler2D u_specularMap;
+uniform sampler2D u_emissiveMap;
+
 
 float calculateAttenuation(in float light_distance,in float range){
 	float attenuation=max(0,1-(light_distance/range));
-	//attenuation=clamp(attenuation,0,1);
  
  
- return attenuation*attenuation;
+	return attenuation*attenuation;
 }
-vec3 calculateLight(in Light light,in vec3 position,in vec3 normal){
+vec3 calculateLight(in Light light,in vec3 position,in vec3 normal,in float specularMask){
 
 	vec3 light_direction;
 	float attenuation=1.0f;
@@ -95,12 +107,12 @@ vec3 calculateLight(in Light light,in vec3 position,in vec3 normal){
 	vec3 halfway_direction=normalize(light_direction+view_direction);
 	 intensity=max(dot(normal,halfway_direction),0);
 	 intensity=pow(intensity,u_material.shininess);
+	vec3 specular=vec3(intensity) * specularMask;
 
 	 //phong
 	//vec3 reflection=reflect(-light_direction,normal);
 	//intensity =max( dot(reflection,view_direction),0);
 	//intensity=pow(intensity,u_material.shininess);
-	vec3 specular=vec3(intensity);
 
 
 	return (diffuse+specular)*light.intensity*attenuation;
@@ -110,10 +122,19 @@ void main()
 {
 	//vec3 color=calculateLight(fs_in.position,fs_in.normal);
 	//f_color = texture(u_material.baseMap, fs_in.texcoord)*vec4(color,1);	
+	float specularMask=((u_material.parameters & SPECULAR_MAP) !=0u) 
+		?texture(u_specularMap,fs_in.texcoord).r
+		:1;
 	vec3 color=u_ambient_light;
 	for(int i=0;i<u_numLights;i++){
-		color+=calculateLight(u_lights[i],fs_in.position,fs_in.normal);
+		color+=calculateLight(u_lights[i],fs_in.position,fs_in.normal,specularMask);
 	}
-	f_color = texture(u_material.baseMap, fs_in.texcoord)*vec4(color,1);	
+
+	vec4 emissive=((u_material.parameters & EMISSIVE_MAP) !=0u) 
+		?texture(u_emissiveMap,fs_in.texcoord)* vec4(u_material.emissiveColor,1):
+		vec4(u_material.emissiveColor,1);
+	
+
+	f_color = texture(u_baseMap, fs_in.texcoord)*vec4(color,1)+emissive;	
 
 }
