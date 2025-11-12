@@ -17,7 +17,8 @@ namespace neu {
 		res_t<Model> model;
 		res_t<Material> material;
 		// Inherited via RendererComponent
-
+		bool enableDepth{ true };
+		GLint cullFace{ GL_BACK };
 
 	};
 }

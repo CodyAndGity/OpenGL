@@ -5,6 +5,7 @@
 	"specularMap": "textures/space_crate_specular.png",
 	"emissiveMap": "textures/space_crate_emissive.png",
 	"emissiveColor": [ 1, 1, 1 ],
+	"normalMap": "textures/space_crate_normal.png",
 	"shininess": 128,
 	"tiling": [ 1, 1 ],
 	"offset": [ 0, 0 ]

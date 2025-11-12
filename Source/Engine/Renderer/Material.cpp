@@ -26,6 +26,14 @@ namespace neu {
 		SERIAL_READ_NAME(document, "emissiveMap", textureName);
 		if(!textureName.empty()) emissiveMap=Resources().Get<Texture>(textureName);
 
+		textureName = "";
+		SERIAL_READ_NAME(document, "normalMap", textureName);
+		if(!textureName.empty()) normalMap=Resources().Get<Texture>(textureName);
+
+		textureName = "";
+		SERIAL_READ_NAME(document, "cubeMap", textureName);
+		if(!textureName.empty()) cubeMap=Resources().Get<Cubemap>(textureName);
+
 		SERIAL_READ(document, baseColor);
 		SERIAL_READ(document, emissiveColor);
 
@@ -60,6 +68,20 @@ namespace neu {
 			parameters = (Parameters)((uint32_t)parameters | (uint32_t)Parameters::EmissiveMap);
 		}
 
+		if (normalMap) {
+			normalMap->SetActive(GL_TEXTURE3);
+			normalMap->Bind();
+			program->SetUniform("u_normalMap", 3);
+			parameters = (Parameters)((uint32_t)parameters | (uint32_t)Parameters::NormalMap);
+		}
+		
+		if (cubeMap) {
+			cubeMap->SetActive(GL_TEXTURE4);
+			cubeMap->Bind();
+			program->SetUniform("u_cubeMap", 4);
+			parameters = (Parameters)((uint32_t)parameters | (uint32_t)Parameters::CubeMap);
+		}
+
 		program->SetUniform("u_material.baseColor", baseColor);
 		program->SetUniform("u_material.emissiveColor", emissiveColor);
 		program->SetUniform("u_material.shininess", shininess);
@@ -80,6 +102,8 @@ namespace neu {
 
 			if(emissiveMap) ImGui::Text("Emissive Map: %s", emissiveMap->name.c_str());
 			ImGui::ColorEdit3("Emissive Color", glm::value_ptr(emissiveColor));
+			
+			if(normalMap) ImGui::Text("Normal Map: %s", normalMap->name.c_str());
 
 			ImGui::DragFloat("Shininess", &(shininess), 1.0f,0.0f, 512.0f);
 			ImGui::DragFloat2("Tiling", glm::value_ptr(tiling), 0.1f);
