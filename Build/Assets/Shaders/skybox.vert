@@ -10,7 +10,7 @@ void main()
 {
 	
 	v_texcoord = a_position;
-	//remove ranslation of camera
+	//remove translation of camera
 	mat4 viewProjection=u_projection* mat4(mat3( u_view));
 	gl_Position = viewProjection* vec4(a_position, 1.0);
 }

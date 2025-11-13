@@ -2,7 +2,7 @@
 in vec3 v_texcoord;
 
 out vec4 f_color;
-\
+
 uniform samplerCube u_cubeMap;
 void main()
 {
