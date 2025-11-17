@@ -64,7 +64,10 @@ namespace neu {
         template<typename T, typename ... Args>
             requires std::derived_from<T, Resource>
         res_t<T> GetWithID(const std::string& id, const std::string& name, Args&& ... args);
-
+        
+        template<typename T = Resource>
+            requires std::derived_from<T, Resource>
+        std::vector<T*> GetByType();
     private:
         /// <summary>
         /// Friend declaration to allow Singleton base class access to private constructor
@@ -139,9 +142,25 @@ namespace neu {
 
         // Successfully loaded - add to cache for future use
         // Store as base Resource pointer for type erasure
-        m_resources[key] = resource;
         resource->name = key;
+        m_resources[key] = resource;
         return resource;
+    }
+
+    template<typename T>
+        requires std::derived_from<T, Resource>
+    inline std::vector<T*> ResourceManager::GetByType()
+    {
+        std::vector<T*> results;
+
+        for (auto& resource : m_resources) {
+            auto result = dynamic_cast<T*>(resource.second.get());
+            if (result) {
+                results.push_back(result);
+            }
+        }
+
+        return results;
     }
 
     /// <summary>
