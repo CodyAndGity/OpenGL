@@ -154,5 +154,5 @@ void main()
 	
 
 	f_color = texture(u_baseMap, fs_in.texcoord)*vec4(color,1)+emissive;	
-
+	//f_color=vec4(gl_FragCoord.x,gl_FragCoord.y,0,1);
 }
