@@ -1,4 +1,6 @@
 {
+	"ambient_light": [ 0.2, 0.2, 0.2 ],
+	"post_process": false,
 	"actors": [
 		{
 			"name": "skybox",
@@ -126,6 +128,36 @@
 
 		},
 		{
+			"name": "postProcess",
+			"persistent": true,
+			"active": false,
+			"transform": {
+				"position": [
+					2,
+					2,
+					0
+				],
+				"rotation": [
+					0,
+					0,
+					0
+				],
+				"scale": [
+					1,
+					1,
+					1
+				]
+			},
+			"components": [
+				{
+					"type": "ModelRenderer",
+					"model": "Models/quad.obj",
+					"material": "Materials/postprocess.mat"
+				}
+			]
+
+		},
+		{
 			"name": "ground",
 			"persistent": true,
 			"transform": {
@@ -186,7 +218,11 @@
 			},
 			"components": [
 				{
-					"type": "CameraComponent"
+					"type": "CameraComponent",
+					"outputTexture": "postProcessTexture"
+				},
+				{
+					"type": "PostProcessComponent"
 				},
 				{
 					"type": "FirstPersonController",

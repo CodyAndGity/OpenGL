@@ -57,6 +57,7 @@
 
 //components
 #include "Components/ModelRenderer.h"
+#include "Components/PostProcessComponent.h"
 #include "Components/CameraComponent.h"
 #include "Components/LightComponent.h"
 #include "Components/FirstPersonController.h"

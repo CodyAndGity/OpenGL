@@ -57,6 +57,7 @@ namespace neu {
 
 	void Scene::UpdateGui() {
 		ImGui::ColorEdit3("Ambient", glm::value_ptr(ambientLight));
+		ImGui::Checkbox("Post Process", &postProcess);
 	}
 
 	/// <summary>
@@ -107,16 +108,28 @@ namespace neu {
 		}
 		std::vector<Program*> programs(programSet.begin(), programSet.end());
 		for (auto& camera : cameras) {
-			if (camera->outputTexture) {
+			PostProcessComponent* postProcessComponent = camera->owner->GetComponent< PostProcessComponent>();
+			bool renderToTexture = (camera->outputTexture)&&(!postProcessComponent||(postProcessComponent && postProcess)) ;
+
+			if (renderToTexture) {
 				camera->outputTexture->BindFramebuffer();
 				glViewport(0, 0,camera->outputTexture->m_size.x, camera->outputTexture->m_size.y);
 
 			}
 			camera->Clear();
 			DrawPass(renderer, programs, lights, camera);
-			if (camera->outputTexture) {
+			if (renderToTexture) {
 				camera->outputTexture->UnbindFramebuffer();
 				glViewport(0, 0, renderer.GetWidth(), renderer.GetHeight());
+			}
+
+			if (renderToTexture && postProcessComponent) {
+				auto postProcessProgram = Resources().Get<Program>("shaders/postprocess.prog");
+				postProcessProgram->Use();
+				postProcessComponent->Apply(*postProcessProgram);
+				camera->outputTexture->Bind();
+				auto actor = GetActorByName("postProcess");
+				actor->Draw(renderer);
 			}
 		}
 
@@ -318,7 +331,8 @@ namespace neu {
 		// Load base Object properties first (name, active, etc.)
 		// This calls the parent class's Read() implementation
 		//Object::Read(value);
-
+		SERIAL_READ(value, ambientLight);
+		SERIAL_READ(value, postProcess);
 		// SECTION 1: Process prototype definitions
 		// Check if the serialized data contains a "prototypes" section
 		if (SERIAL_CONTAINS(value, prototypes)) {

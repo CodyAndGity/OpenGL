@@ -319,6 +319,7 @@ namespace neu {
         /// </summary>
         std::list<std::unique_ptr<Actor>> m_actors;
 		glm::vec3 ambientLight{ 0.2f, 0.2f, 0.2f };
+        bool postProcess{ false };
         
 };
 
