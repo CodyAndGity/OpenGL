@@ -124,6 +124,7 @@ namespace neu {
 			}
 
 			if (renderToTexture && postProcessComponent) {
+				camera->Clear(); // <-- add
 				auto postProcessProgram = Resources().Get<Program>("shaders/postprocess.prog");
 				postProcessProgram->Use();
 				postProcessComponent->Apply(*postProcessProgram);

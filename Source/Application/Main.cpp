@@ -2,6 +2,29 @@
 #include "../Engine/Renderer/Program.h"
 
 int main(int argc, char* argv[]) {
+	float offsets[9] = { 1,2,3,4,5,6,7,8,9 };
+	float kernel[9] = { 1,2,3,4,5,6,7,8,9 };
+	glm::mat3 kernelm = { 1,2,3,4,5,6,7,8,9};
+	glm::vec4 sum = glm::vec4(0.0);
+	glm::vec4 sumM = glm::vec4(0.0);
+
+	int offset = 0;
+	for (int row = 0; row < 3; row++) {
+		for (int column = 0; column < 3; column++) {
+			sum +=offsets[offset] * kernel[offset];
+			std::cout << "kernel[offset]: " << kernel[offset] << std::endl;
+
+			sumM +=offsets[offset] * kernelm[row][column];
+			std::cout << "kernelm[row][column]: " << kernelm[row][column] << std::endl;
+			offset++;
+		}
+	}
+	std::cout << "kernel[offset]: " << sum.x<<", "<< sum.y<<" "<< sum.z << std::endl;
+	std::cout << "kernelM[row][c]: " << sumM.x<<", "<< sumM.y<<" "<< sumM.z << std::endl;
+
+	
+
+
 	neu::file::SetCurrentDirectory("Assets");
 	LOG_INFO("current directory {}", neu::file::GetCurrentDirectory());
 
