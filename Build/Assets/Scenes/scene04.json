@@ -1,0 +1,232 @@
+{
+  "ambient_light": [ 0.2, 0.2, 0.2 ],
+  "post_process": false,
+  "actors": [
+    {
+      "name": "light",
+      "persistent": true,
+      "transform": {
+        "position": [ 0, 10, 0 ],
+        "rotation": [ -90, 0, 0 ],
+        "scale": [ 1, 1, 1 ]
+      },
+      "components": [
+        {
+          "type": "LightComponent",
+          "color": [ 0.5, 0.5, 0.5 ],
+          "intensity": 1,
+          "range": 10,
+          "lightType": "Directional_Light",
+          "shadowCaster": true
+        },
+        {
+          "type": "CameraComponent",
+          "projectionType": "orthographic",
+          "shadowCamera": true,
+          "outputTexture": "shadowTexture"
+        }
+      ]
+    },
+    {
+      "name": "cow",
+      "persistent": true,
+      "transform": {
+        "position": [
+          0,
+          2,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "components": [
+        {
+          "type": "ModelRenderer",
+          "model": "Models/spot.obj",
+          "material": "Materials/spot.mat"
+
+        },
+        {
+          "type": "RotationComponent",
+          "rotate": [
+            0,
+            90,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cube",
+      "persistent": true,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          180,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "components": [
+        {
+          "type": "ModelRenderer",
+          "model": "Models/cube.obj",
+          "material": "Materials/crate.mat"
+        }
+      ]
+
+    },
+    {
+      "name": "window",
+      "persistent": true,
+      "transform": {
+        "position": [
+          -1,
+          1,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "components": [
+        {
+          "type": "ModelRenderer",
+          "model": "Models/quad.obj",
+          "material": "Materials/shadow.mat"
+        }
+      ]
+
+    },
+    {
+      "name": "postProcess",
+      "persistent": true,
+      "active": false,
+      "transform": {
+        "position": [
+          2,
+          2,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "components": [
+        {
+          "type": "ModelRenderer",
+          "model": "Models/quad.obj",
+          "material": "Materials/postprocess.mat"
+        }
+      ]
+
+    },
+    {
+      "name": "ground",
+      "persistent": true,
+      "transform": {
+        "position": [
+          0,
+          -0.5,
+          0
+        ],
+        "rotation": [
+          0,
+          180,
+          0
+        ],
+        "scale": [
+          5,
+          5,
+          5
+        ]
+      },
+      "components": [
+        {
+          "type": "ModelRenderer",
+          "model": "Models/plane.obj",
+          "material": "Materials/rock.mat"
+
+        }
+      ]
+
+    },
+    {
+      "name": "camera_rtt",
+      "persistent": true,
+      "transform": {
+        "position": [ 0, 1, 2 ],
+        "rotation": [ 0, 0, 0 ],
+        "scale": [ 1, 1, 1 ]
+      },
+      "components": [
+        {
+          "type": "CameraComponent",
+          "outputTexture": "renderTexture"
+        },
+        {
+          "type": "FirstPersonController",
+          "speed": 5,
+          "sensitivity": 0.2
+        }
+
+      ]
+    },
+    {
+      "name": "camera",
+      "persistent": true,
+      "transform": {
+        "position": [ 0, 0, 5 ],
+        "rotation": [ 0, 0, 0 ],
+        "scale": [ 1, 1, 1 ]
+      },
+      "components": [
+        {
+          "type": "CameraComponent",
+          "outputTexture": "postProcessTexture"
+        },
+        {
+          "type": "PostProcessComponent"
+        },
+        {
+          "type": "FirstPersonController",
+          "speed": 5,
+          "sensitivity": 0.2
+        }
+
+      ]
+    }
+
+  ]
+}

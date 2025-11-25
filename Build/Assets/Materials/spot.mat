@@ -1,8 +1,9 @@
 {
-	"program": "shaders/lit_phong.prog",
+	"program": "shaders/lit_phong_shadow.prog",
 	"baseMap": "textures/cow.jpg",
-	"baseColor":[1,1,1],
+	"baseColor": [ 1, 1, 1 ],
+	"shadowMap": "shadowTexture",
 	"shininess": 128,
-	"tiling": [1,1],
-	"offset":[0,0]
+	"tiling": [ 1, 1 ],
+	"offset": [ 0, 0 ]
 }

@@ -1,11 +1,12 @@
 {
-	"program": "shaders/lit_phong.prog",
+	"program": "shaders/lit_phong_shadow.prog",
 	"baseMap": "textures/space_crate_base.png",
 	"baseColor": [ 1, 1, 1 ],
 	"specularMap": "textures/space_crate_specular.png",
 	"emissiveMap": "textures/space_crate_emissive.png",
 	"emissiveColor": [ 1, 1, 1 ],
 	"normalMap": "textures/space_crate_normal.png",
+	"shadowMap": "shadowTexture",
 	"shininess": 128,
 	"tiling": [ 1, 1 ],
 	"offset": [ 0, 0 ]
